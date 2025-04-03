@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="./">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Converter</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.21.0/babel.min.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 400px; margin: auto; text-align: center; }
+        h1 { font-size: 24px; }
+        select, input, button { margin: 5px; padding: 5px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        function Min2Hour() {
+            const [amount, setAmount] = React.useState(0);
+            const [flipped, setFlipped] = React.useState(false);
+            
+            const onChange = (event) => setAmount(event.target.value);
+            const onReset = () => setAmount(0);
+            const onFlip = () => {
+                setFlipped(!flipped);
+                setAmount(0);
+            };
+            
+            return (
+                <div>
+                    <h3>Minutes to Hours</h3>
+                    <input type="number" placeholder="Minutes" value={amount} onChange={onChange} />
+                    <p>You want to convert from {amount} minutes to:</p>
+                    <input type="number" placeholder="Hours" value={flipped ? amount * 60 : amount / 60} readOnly />
+                    <br/>
+                    <button onClick={onReset}>Reset</button>
+                    <button onClick={onFlip}>Flip</button>
+                </div>
+            );
+        }
+        
+        function Km2Mile() {
+            const [amount, setAmount] = React.useState(0);
+            const [flipped, setFlipped] = React.useState(false);
+            
+            const onChange = (event) => setAmount(event.target.value);
+            const onReset = () => setAmount(0);
+            const onFlip = () => {
+                setFlipped(!flipped);
+                setAmount(0);
+            };
+            
+            return (
+                <div>
+                    <h3>Kilometers to Miles</h3>
+                    <input type="number" placeholder={flipped ? "Miles" : "Kilometers"} value={amount} onChange={onChange} />
+                    <p>{flipped ? `${amount} Miles = ${(amount * 1.60934).toFixed(2)} Km` : `${amount} Km = ${(amount / 1.60934).toFixed(2)} Miles`}</p>
+                    <br/>
+                    <button onClick={onReset}>Reset</button>
+                    <button onClick={onFlip}>Flip</button>
+                </div>
+            );
+        }
+        
+        function App() {
+            const [index, setIndex] = React.useState("0");
+            return (
+                <div className="container">
+                    <h1>Super Converter</h1>
+                    <select value={index} onChange={(event) => setIndex(event.target.value)}>
+                        <option value="0">Minutes & Hours</option>
+                        <option value="1">Kilometers & Miles</option>
+                    </select>
+                    {index === "0" ? <Min2Hour /> : null}
+                    {index === "1" ? <Km2Mile /> : null}
+                </div>
+            );
+        }
+        
+        ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+    </script>
+</body>
+</html>
